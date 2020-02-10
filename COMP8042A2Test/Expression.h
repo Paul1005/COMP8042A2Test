@@ -3,6 +3,15 @@
 
 using namespace std;
 
+bool isValidSymbol(char symbol) {
+	if (symbol != '+' && symbol != '-' && symbol != '*' && symbol != '/' && symbol != '^' && symbol != '@') {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
 double evalPostFix() //TODO: complete
 {
 	string token;
@@ -11,7 +20,7 @@ double evalPostFix() //TODO: complete
 	stack<double> operands;
 	while (token[0] != '=')
 	{
-		if (token[0] != '+' && token[0] != '-' && token[0] != '*' && token[0] != '/' && token[0] != '^' && token[0] != '@') {
+		if (isValidSymbol(token[0])) {
 			result = atof(token.c_str());
 		}
 		else {
@@ -36,11 +45,16 @@ double evalPostFix() //TODO: complete
 				result = pow(first, second);
 				break;
 			case '@':
-				result = (first + second) / 2;
+				double third = operands.top();
+				operands.pop();
+				second = operands.top();
+				operands.pop();
+				first = operands.top();
+				operands.pop();
+				result = (first + second + third) / 3;
 				break;
 			}
 		}
-		//cout << result;
 		operands.push(result);
 
 		cin >> token;
@@ -54,10 +68,49 @@ bool isValidExpression(int expressionType) {
 	// expressionType==2 means postfix'
 	string token;
 	bool result;
+	bool wasSymbol = true;
 	cin >> token;
-	{
+	while (token[0] != '=') {
 		result = atof(token.c_str());
+
+		if (result) {
+			if (expressionType == 0) {
+
+			}
+			else if (expressionType == 1) {
+				if (wasSymbol) {
+					wasSymbol = false;
+				}
+				else if (!wasSymbol) {
+					return false;
+				}
+			}
+			else if (expressionType == 2) {
+
+			}
+		}
+		else if (!result) {
+			if (isValidSymbol(token[0])) {
+				if (expressionType == 0) {
+
+				}
+				else if (expressionType == 1) {
+					if (wasSymbol) {
+						return false;
+					}
+					else if (!wasSymbol) {
+						wasSymbol = true;
+					}
+				}
+				else if (expressionType == 2) {
+
+				}
+			}
+			else {
+				return false;
+			}
+		}
 		cin >> token;
 	}
-	return false;
+	return true;
 }
