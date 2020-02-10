@@ -11,18 +11,18 @@ using namespace std;
 
 int main()
 {
-	cout << "***** Q1: Postfix expression" << endl;
+	/*cout << "***** Q1: Postfix expression" << endl;
 	for (int k = 1; k <= 4; k++)
 	{
 		cout << "Enter a postfix expression:" << endl;
 		double result = evalPostFix();
 		cout << "Result = " << result << endl;
-	}
+	}*/
 	cout << "Enter a non-valid infix expression:" << endl;
 	bool result = isValidExpression(1);
 	cout << "Result = " << result << endl;
 
-	cout << endl << endl << "***** Q2: Queue using circular array" << endl;
+	/*cout << endl << endl << "***** Q2: Queue using circular array" << endl;
 	queue<int> Q(5);
 	cout << "Empty Q:"; Q.print(); cout << endl;
 	Q.enque(1);
@@ -106,7 +106,7 @@ int main()
 	tree.printTree(cout);
 	cout << "Printing tree with deleted nodes..." << endl;
 	tree.printTree(cout, true);
-	cout << endl;
+	cout << endl;*/
 
 	return 0;
 }

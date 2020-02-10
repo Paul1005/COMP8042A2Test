@@ -70,12 +70,27 @@ bool isValidExpression(int expressionType) {
 	bool result;
 	bool wasSymbol = true;
 	cin >> token;
+	int numOfOperands = 0;
+	int numOfOperations = 0;
 	while (token[0] != '=') {
 		result = atof(token.c_str());
-
-		if (result) {
+		if (result) { // is a number/operand
 			if (expressionType == 0) {
+				if (numOfOperations == 0) {
+					return false;
+				}
+				else {
+					if (numOfOperands == 0) {
+						numOfOperands++;
+					}
+					else if (numOfOperands == 1) {
+						numOfOperations--;
+					}
+					else if (numOfOperands == 2) {
+						numOfOperations = numOfOperations - 2;
+					}
 
+				}
 			}
 			else if (expressionType == 1) {
 				if (wasSymbol) {
@@ -86,13 +101,25 @@ bool isValidExpression(int expressionType) {
 				}
 			}
 			else if (expressionType == 2) {
+				if (numOfOperands == 0) {
+					numOfOperands++;
+				}
+				else if (numOfOperands == 1) {
+					numOfOperands++;
+				}
+				else if (numOfOperands == 2) {
+					numOfOperands++;
+				}
+				else if (numOfOperands == 3) {
+					return false;
+				}
 
 			}
 		}
-		else if (!result) {
+		else if (!result) { // is an operation
 			if (isValidSymbol(token[0])) {
 				if (expressionType == 0) {
-
+					numOfOperations++;
 				}
 				else if (expressionType == 1) {
 					if (wasSymbol) {
@@ -103,7 +130,20 @@ bool isValidExpression(int expressionType) {
 					}
 				}
 				else if (expressionType == 2) {
-
+					if (numOfOperands == 1) {
+						return false;
+					}
+					else if (numOfOperands == 2) {
+						numOfOperands--;
+					}
+					else if (numOfOperands == 3) {
+						if (token[0] == '&') {
+							numOfOperands = numOfOperands - 2;
+						}
+						else {
+							return false;
+						}
+					}
 				}
 			}
 			else {
@@ -111,6 +151,12 @@ bool isValidExpression(int expressionType) {
 			}
 		}
 		cin >> token;
+	}
+	if (expressionType == 2 && numOfOperands != 1) {
+		return false;
+	}
+	else if (expressionType == 0 && (numOfOperands != 1 || numOfOperations != 0)) {
+		return false;
 	}
 	return true;
 }
