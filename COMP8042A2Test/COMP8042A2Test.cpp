@@ -19,7 +19,11 @@ int main()
 		cout << "Result = " << result << endl;
 	}*/
 	cout << "Enter a non-valid infix expression:" << endl;
-	bool result = isValidExpression(1);
+	bool result = isValidExpression(0);
+	cout << "Result = " << result << endl;
+	result = isValidExpression(1);
+	cout << "Result = " << result << endl;
+	result = isValidExpression(2);
 	cout << "Result = " << result << endl;
 
 	/*cout << endl << endl << "***** Q2: Queue using circular array" << endl;
