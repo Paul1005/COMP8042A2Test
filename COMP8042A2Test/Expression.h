@@ -89,7 +89,6 @@ bool isValidExpression(int expressionType) {
 					else if (numOfOperands == 2) {
 						numOfOperations = numOfOperations - 2;
 					}
-
 				}
 			}
 			else if (expressionType == 1) {
@@ -113,7 +112,6 @@ bool isValidExpression(int expressionType) {
 				else if (numOfOperands == 3) {
 					return false;
 				}
-
 			}
 		}
 		else if (!result) { // is an operation
@@ -130,18 +128,13 @@ bool isValidExpression(int expressionType) {
 					}
 				}
 				else if (expressionType == 2) {
-					if (numOfOperands == 1) {
+					if (numOfOperands == 1 || numOfOperands == 0) {
 						return false;
 					}
-					else if (numOfOperands == 2) {
+					else {
 						numOfOperands--;
-					}
-					else if (numOfOperands == 3) {
 						if (token[0] == '&') {
-							numOfOperands = numOfOperands - 2;
-						}
-						else {
-							return false;
+							numOfOperands--;
 						}
 					}
 				}
