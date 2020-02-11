@@ -17,18 +17,18 @@ int main()
 		cout << "Enter a postfix expression:" << endl;
 		double result = evalPostFix();
 		cout << "Result = " << result << endl;
-	}*/
-	/*cout << "Enter a non-valid prefix expression:" << endl;
+	}
+	cout << "Enter a non-valid prefix expression:" << endl;
 	bool result = isValidExpression(0);
 	cout << "Result = " << result << endl;
 	cout << "Enter a non-valid infix expression:" << endl;
 	result = isValidExpression(1);
-	cout << "Result = " << result << endl;*/
+	cout << "Result = " << result << endl;
 	cout << "Enter a non-valid postfix expression:" << endl;
 	bool result = isValidExpression(2);
-	cout << "Result = " << result << endl;
+	cout << "Result = " << result << endl;*/
 
-	/*cout << endl << endl << "***** Q2: Queue using circular array" << endl;
+	cout << endl << endl << "***** Q2: Queue using circular array" << endl;
 	queue<int> Q(5);
 	cout << "Empty Q:"; Q.print(); cout << endl;
 	Q.enque(1);
@@ -112,7 +112,7 @@ int main()
 	tree.printTree(cout);
 	cout << "Printing tree with deleted nodes..." << endl;
 	tree.printTree(cout, true);
-	cout << endl;*/
+	cout << endl;
 
 	return 0;
 }
