@@ -30,11 +30,15 @@ int main()
 
 	cout << endl << endl << "***** Q2: Queue using circular array" << endl;
 	queue<int> Q(5);
-	cout << "Empty Q:"; Q.print(); cout << endl;
+	cout << "Empty Q:"; 
+	Q.print(); 
+	cout << endl;
 	Q.enque(1);
 	Q.enque(2);
 	Q.enque(3);
-	cout << "Full Q1:"; Q.print(); cout << endl;
+	cout << "Full Q1:"; 
+	Q.print(); 
+	cout << endl;
 	cout << Q.deque() << " " << Q.deque() << " " << Q.deque() << " " << endl;
 	cout << Q.deque() << endl;
 	Q.enque(10);
@@ -42,10 +46,13 @@ int main()
 	Q.enque(30);
 	Q.enque(40);
 	Q.enque(50);
-	cout << "Full Q2:"; Q.print(); cout << endl;
+	cout << "Full Q2:"; 
+	Q.print(); 
+	cout << endl;
 	cout << Q.deque() << endl;
 	Q.enque(100);
-	cout << "Full Q3:"; Q.print(); cout << endl;
+	cout << "Full Q3:"; 
+	Q.print(); cout << endl;
 	cout << Q.deque() << endl;
 	cout << Q.deque() << endl;
 	cout << Q.deque() << endl;
