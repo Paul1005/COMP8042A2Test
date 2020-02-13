@@ -188,10 +188,14 @@ private:
 	{
 		if (t == nullptr)
 			t = new BinaryNode{ x, nullptr, nullptr };
-		else if (x < t->element)
-			insert(x, t->left);
-		else if (t->element < x)
-			insert(x, t->right);
+		else if (x < t->element) {
+			insert(std::move(x), t->left);
+			t->updateHeight();
+		}
+		else if (t->element < x) {
+			insert(std::move(x), t->right);
+			t->updateHeight();
+		}
 		else {
 			if (t->isDeleted) {
 				t->isDeleted = false; // if duplicate, but flag is true, flip to false
@@ -207,10 +211,14 @@ private:
 	{
 		if (t == nullptr)
 			t = new BinaryNode{ std::move(x), nullptr, nullptr };
-		else if (x < t->element)
+		else if (x < t->element) {
 			insert(std::move(x), t->left);
-		else if (t->element < x)
+			t->updateHeight();
+		}
+		else if (t->element < x) {
 			insert(std::move(x), t->right);
+			t->updateHeight();
+		}
 		else {
 			if (t->isDeleted) {
 				t->isDeleted = false; // if duplicate, but flag is true, flip to false
