@@ -26,7 +26,7 @@ int main()
 	cout << "Result = " << result << endl;
 	cout << "Enter a non-valid postfix expression:" << endl;
 	bool result = isValidExpression(2);
-	cout << "Result = " << result << endl;*/
+	cout << "Result = " << result << endl;
 
 	cout << endl << endl << "***** Q2: Queue using circular array" << endl;
 	queue<int> Q(5);
@@ -56,8 +56,7 @@ int main()
 	cout << Q.deque() << endl;
 	cout << Q.deque() << endl;
 	cout << Q.deque() << endl;
-	cout << Q.deque() << endl;
-
+	cout << Q.deque() << endl;*/
 
 	cout << endl << endl << "***** Q3: Binary Search Tree" << endl;
 	BinarySearchTree<int> bst;
