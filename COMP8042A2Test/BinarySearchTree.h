@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #ifndef BINARY_SEARCH_TREE_H
 #define BINARY_SEARCH_TREE_H
 
@@ -87,9 +89,10 @@ public:
 
 	// the function which tests for the branch heights and assures the tree is
 	// an AVL tree (balanced)
-	void balance()
+	void balance(const Comparable& x)
 	{
 		// TODO fill in this function
+		balance(x, root);
 	}
 
 	// Returns true if x is found in the tree.
@@ -126,6 +129,7 @@ public:
 	void insert(const Comparable& x)
 	{
 		insert(x, root);
+		balance(x);
 	}
 
 	// Insert x into the tree; duplicates are ignored.
@@ -142,21 +146,31 @@ public:
 
 
 private:
+#define HEIGHT(n) (((n) == NULL)? -1 : ((n)->height))
 	struct BinaryNode
 	{
 		Comparable element;
 		BinaryNode* left;
 		BinaryNode* right;
 		bool isDeleted; // added this flag
+		int height; 
 
 		BinaryNode(const Comparable& theElement, BinaryNode* lt, BinaryNode* rt)
-			: element{ theElement }, left{ lt }, right{ rt } {
+			: element{ theElement }, left{ lt }, right{ rt }, height(0) {
 			isDeleted = false; // set flat to false on create
 		}
 
 		BinaryNode(Comparable&& theElement, BinaryNode* lt, BinaryNode* rt)
-			: element{ std::move(theElement) }, left{ lt }, right{ rt } {
+			: element{ std::move(theElement) }, left{ lt }, right{ rt }, height(0) {
 			isDeleted = false; // set flat to false on create
+		}
+		
+		void updateHeight() {
+			height = std::max(HEIGHT(left), HEIGHT(right)) + 1;
+		}
+
+		bool balanced() {
+			return abs(HEIGHT(left) - HEIGHT(right)) <= 1;
 		}
 	};
 
@@ -336,6 +350,90 @@ private:
 			return nullptr;
 		else
 			return new BinaryNode{ t->element, clone(t->left), clone(t->right) };
+	}
+
+	// A utility function to right 
+	// rotate subtree rooted with y  
+	// See the diagram given above.  
+	BinaryNode* singleRightRotation(BinaryNode* y)
+	{
+		BinaryNode* x = y->left;
+		BinaryNode* T2 = x->right;
+
+		// Perform rotation  
+		x->right = y;
+		y->left = T2;
+
+		// Return new root  
+		return x;
+	}
+
+	// A utility function to left  
+	// rotate subtree rooted with x  
+	// See the diagram given above.  
+	BinaryNode* singleLeftRotation(BinaryNode* x)
+	{
+		BinaryNode* y = x->right;
+		BinaryNode* T2 = y->left;
+
+		// Perform rotation  
+		y->left = x;
+		x->right = T2;
+
+		// Return new root  
+		return y;
+	}
+
+	// A utility function to right 
+// rotate subtree rooted with y  
+// See the diagram given above.  
+	BinaryNode* doubleLeftRightRotation(BinaryNode* y)
+	{
+		y->left = singleLeftRotation(y->left);
+		BinaryNode* x = singleRightRotation(y);
+		return x;
+	}
+
+	// A utility function to left  
+	// rotate subtree rooted with x  
+	// See the diagram given above.  
+	BinaryNode* doubleRightLeftRotation(BinaryNode* x)
+	{
+		x->right = singleRightRotation(x->right);
+		BinaryNode* y = singleLeftRotation(x);
+		return y;
+	}
+
+	void balance(const Comparable& x, BinaryNode*& t) {
+
+		if (!t->balanced()) {
+			int rightHeight = -1;
+			if (t->right != NULL) {
+				rightHeight = t->right->height;
+			}
+
+			int leftHeight = -1;
+			if (t->left != NULL) {
+				leftHeight = t->left->height;
+			}
+
+			int balanceFactor = leftHeight - rightHeight;
+			if (balanceFactor > 1 && x < t->left->element) {
+				t = singleRightRotation(t);
+			}
+			else if (balanceFactor < -1 && x > t->right->element) {
+				t = singleLeftRotation(t);
+			}
+			else if (balanceFactor > 1 && x > t->left->element) {
+				t = doubleLeftRightRotation(t);
+			}
+			else if (balanceFactor < -1 && x < t->right->element) {
+				t = doubleRightLeftRotation(t);
+			}
+			// TODO Do not forget to update the tree link pointing to p[i] after the rotation is done
+			// TODO Do not forget to update the height of the tree nodes after the rotation to ensure that future insert operations will work correctly
+			t->updateHeight();
+		}
 	}
 };
 

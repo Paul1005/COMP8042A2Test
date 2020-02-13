@@ -120,5 +120,32 @@ int main()
 	tree.printTree(cout, true);
 	cout << endl;
 
+
+	BinarySearchTree<int> avl;
+	avl.insert(10);
+	avl.insert(9);
+	avl.insert(7); // A single right rotation should happen here
+	avl.printTree(cout);
+	avl.insert(14);
+	avl.insert(18);
+	avl.printTree(cout);
+	avl.insert(11); // A double rotation should happen here
+	avl.printTree(cout);
+	avl.insert(8);
+	avl.printTree(cout);
+
+	// A good way to test an AVL tree is to create a worst-case scenario by
+	// inserting items in the sorted order and make sure that the tree is
+	// balanced after each insertion
+	BinarySearchTree<int> seq_avl;
+	for (int i = 1; i <= 20; i++) {
+		seq_avl.insert(i);
+		seq_avl.printTree(cout);
+	}
+
+	// Print the final tree
+	seq_avl.printTree(cout);
+
+
 	return 0;
 }
