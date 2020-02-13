@@ -181,6 +181,7 @@ private:
 		else {
 			if (t->isDeleted) {
 				t->isDeleted = false; // if duplicate, but flag is true, flip to false
+				//numDeleted--;
 			}
 			else {
 				;  // Duplicate; do nothing
@@ -199,6 +200,7 @@ private:
 		else {
 			if (t->isDeleted) {
 				t->isDeleted = false; // if duplicate, but flag is true, flip to false
+				//numDeleted--;
 			}
 			else {
 				;  // Duplicate; do nothing
@@ -222,8 +224,9 @@ private:
 			remove(x, t->right);
 		else
 		{
-			if (!t->isDelete) {
+			if (!t->isDeleted) {
 				t->isDeleted = true; // changed code to set isDeleted to true;
+				numDeleted++; // increase number of deletions
 			}
 			else {
 				return; // item is already deleted, do nothing
@@ -237,7 +240,7 @@ private:
 	 */
 	BinaryNode* findMin(BinaryNode* t) const
 	{
-		BinaryNode* minNode;
+		BinaryNode* minNode = nullptr;
 
 		findMinLazyDelete(t, minNode); //does an inorder traversal until it finds the first non-deleted node
 		return minNode;
@@ -245,7 +248,7 @@ private:
 	}
 
 	// based on https://stackoverflow.com/questions/48895238/how-to-write-findminimum-of-a-lazy-deleted-binary-search-tree-in-java
-	void findMinLazyDelete(BinaryNode* t, BinaryNode* minNode) const
+	void findMinLazyDelete(BinaryNode* t, BinaryNode*& minNode) const
 	{
 		if (t != nullptr && minNode == nullptr) {
 			findMinLazyDelete(t->left, minNode);
@@ -262,13 +265,13 @@ private:
 	 */
 	BinaryNode* findMax(BinaryNode* t) const
 	{
-		BinaryNode* maxNode;
+		BinaryNode* maxNode = nullptr;
 
 		findMaxLazyDelete(t, maxNode); //does a reverse inorder traversal until it finds the first non-deleted node
 		return maxNode;
 	}
 
-	void findMaxLazyDelete(BinaryNode* t, BinaryNode* maxNode) const
+	void findMaxLazyDelete(BinaryNode* t, BinaryNode*& maxNode) const
 	{
 		if (t != nullptr && maxNode == nullptr) {
 			findMaxLazyDelete(t->right, maxNode);
@@ -314,7 +317,14 @@ private:
 		if (t != nullptr)
 		{
 			printTree(t->left, out, printDeleted);
-			out << t->element << endl;
+			if (printDeleted) {
+				out << t->element << endl;
+			}
+			else if (!printDeleted) {
+				if (!t->isDeleted) {
+					out << t->element << endl;
+				}
+			}
 			printTree(t->right, out, printDeleted);
 		}
 	}
