@@ -92,7 +92,7 @@ public:
 	void balance(const Comparable& x)
 	{
 		// TODO fill in this function
-		balance(x, root);
+
 	}
 
 	// Returns true if x is found in the tree.
@@ -129,7 +129,6 @@ public:
 	void insert(const Comparable& x)
 	{
 		insert(x, root);
-		balance(x);
 	}
 
 	// Insert x into the tree; duplicates are ignored.
@@ -177,6 +176,35 @@ private:
 	BinaryNode* root;
 	int numDeleted;
 
+	void balance(const Comparable& x, BinaryNode*& t) {
+
+		if (!t->balanced()) {
+			int rightHeight = -1;
+			if (t->right != NULL) {
+				rightHeight = t->right->height;
+			}
+
+			int leftHeight = -1;
+			if (t->left != NULL) {
+				leftHeight = t->left->height;
+			}
+
+			int balanceFactor = leftHeight - rightHeight;
+			if (balanceFactor > 1 && x < t->left->element) {
+				t = singleRightRotation(t);
+			}
+			else if (balanceFactor < -1 && x > t->right->element) {
+				t = singleLeftRotation(t);
+			}
+			else if (balanceFactor > 1 && x > t->left->element) {
+				t = doubleLeftRightRotation(t);
+			}
+			else if (balanceFactor < -1 && x < t->right->element) {
+				t = doubleRightLeftRotation(t);
+			}
+
+		}
+	}
 
 	/*
 		Internal methods to insert into a subtree.
@@ -205,6 +233,7 @@ private:
 				;  // Duplicate; do nothing
 			}
 		}
+		balance(x, t);
 	}
 
 	void insert(Comparable&& x, BinaryNode*& t)
@@ -228,6 +257,7 @@ private:
 				;  // Duplicate; do nothing
 			}
 		}
+		balance(x, t);
 	}
 
 	/*
@@ -372,6 +402,9 @@ private:
 		x->right = y;
 		y->left = T2;
 
+		y->updateHeight();
+		x->updateHeight();
+
 		// Return new root  
 		return x;
 	}
@@ -387,6 +420,9 @@ private:
 		// Perform rotation  
 		y->left = x;
 		x->right = T2;
+
+		x->updateHeight();
+		y->updateHeight();
 
 		// Return new root  
 		return y;
@@ -410,38 +446,6 @@ private:
 		x->right = singleRightRotation(x->right);
 		BinaryNode* y = singleLeftRotation(x);
 		return y;
-	}
-
-	void balance(const Comparable& x, BinaryNode*& t) {
-
-		if (!t->balanced()) {
-			int rightHeight = -1;
-			if (t->right != NULL) {
-				rightHeight = t->right->height;
-			}
-
-			int leftHeight = -1;
-			if (t->left != NULL) {
-				leftHeight = t->left->height;
-			}
-
-			int balanceFactor = leftHeight - rightHeight;
-			if (balanceFactor > 1 && x < t->left->element) {
-				t = singleRightRotation(t);
-			}
-			else if (balanceFactor < -1 && x > t->right->element) {
-				t = singleLeftRotation(t);
-			}
-			else if (balanceFactor > 1 && x > t->left->element) {
-				t = doubleLeftRightRotation(t);
-			}
-			else if (balanceFactor < -1 && x < t->right->element) {
-				t = doubleRightLeftRotation(t);
-			}
-			// TODO Do not forget to update the tree link pointing to p[i] after the rotation is done
-			// TODO Do not forget to update the height of the tree nodes after the rotation to ensure that future insert operations will work correctly
-			t->updateHeight();
-		}
 	}
 };
 
