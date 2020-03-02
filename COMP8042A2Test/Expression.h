@@ -17,17 +17,17 @@ double evalPostFix() //TODO: complete
 	string token;
 	double result;
 	cin >> token;
-	stack<double> operands;
+	stack<double> numbers;
 	while (token[0] != '=')
 	{
-		if (isValidSymbol(token[0])) {
+		if (!isValidSymbol(token[0])) {
 			result = atof(token.c_str());
 		}
 		else {
-			double second = operands.top();
-			operands.pop();
-			double first = operands.top();
-			operands.pop();
+			double second = numbers.top();
+			numbers.pop();
+			double first = numbers.top();
+			numbers.pop();
 			switch (token[0]) {
 			case '+':
 				result = first + second;
@@ -45,21 +45,16 @@ double evalPostFix() //TODO: complete
 				result = pow(first, second);
 				break;
 			case '@':
-				double third = operands.top();
-				operands.pop();
-				second = operands.top();
-				operands.pop();
-				first = operands.top();
-				operands.pop();
+				double third = numbers.top();
 				result = (first + second + third) / 3;
 				break;
 			}
 		}
-		operands.push(result);
+		numbers.push(result);
 
 		cin >> token;
 	}
-	return operands.top();
+	return numbers.top();
 }
 
 bool isValidExpression(int expressionType) {
@@ -70,8 +65,9 @@ bool isValidExpression(int expressionType) {
 	bool result;
 	bool wasSymbol = true;
 	cin >> token;
-	int numOfOperands = 0;
+	int numOfNumbers = 0;
 	int numOfOperations = 0;
+	stack<double> operations;
 	while (token[0] != '=') {
 		result = atof(token.c_str());
 		if (result) { // is a number/operand
@@ -80,14 +76,24 @@ bool isValidExpression(int expressionType) {
 					return false;
 				}
 				else {
-					if (numOfOperands == 0) {
-						numOfOperands++;
+					if (numOfNumbers == 0) {
+						numOfNumbers++;
 					}
-					else if (numOfOperands == 1) {
+					else if (numOfNumbers == 1) {
+						if (operations.top() == '@') {
+							numOfNumbers++;
+						}
+						else {
+							numOfOperations--;
+							operations.pop();
+						}
+					}
+					else if (numOfNumbers == 2) {
+						if (operations.top() == '@') {
+							numOfNumbers--;
+						}
+						operations.pop();
 						numOfOperations--;
-					}
-					else if (numOfOperands == 2) {
-						numOfOperations = numOfOperations - 2;
 					}
 				}
 			}
@@ -100,16 +106,16 @@ bool isValidExpression(int expressionType) {
 				}
 			}
 			else if (expressionType == 2) {
-				if (numOfOperands == 0) {
-					numOfOperands++;
+				if (numOfNumbers == 0) {
+					numOfNumbers++;
 				}
-				else if (numOfOperands == 1) {
-					numOfOperands++;
+				else if (numOfNumbers == 1) {
+					numOfNumbers++;
 				}
-				else if (numOfOperands == 2) {
-					numOfOperands++;
+				else if (numOfNumbers == 2) {
+					numOfNumbers++;
 				}
-				else if (numOfOperands == 3) {
+				else if (numOfNumbers == 3) {
 					return false;
 				}
 			}
@@ -117,6 +123,7 @@ bool isValidExpression(int expressionType) {
 		else if (!result) { // is an operation
 			if (isValidSymbol(token[0])) {
 				if (expressionType == 0) {
+					operations.push(token[0]);
 					numOfOperations++;
 				}
 				else if (expressionType == 1) {
@@ -128,13 +135,18 @@ bool isValidExpression(int expressionType) {
 					}
 				}
 				else if (expressionType == 2) {
-					if (numOfOperands == 1 || numOfOperands == 0) {
+					if (numOfNumbers == 1 || numOfNumbers == 0) {
 						return false;
 					}
 					else {
-						numOfOperands--;
+						numOfNumbers--;
 						if (token[0] == '&') {
-							numOfOperands--;
+							if (numOfNumbers == 2) {
+								return false;
+							}
+							else {
+								numOfNumbers--;
+							}
 						}
 					}
 				}
@@ -145,10 +157,10 @@ bool isValidExpression(int expressionType) {
 		}
 		cin >> token;
 	}
-	if (expressionType == 2 && numOfOperands != 1) {
+	if (expressionType == 2 && numOfNumbers != 1) {
 		return false;
 	}
-	else if (expressionType == 0 && (numOfOperands != 1 || numOfOperations != 0)) {
+	else if (expressionType == 0 && (numOfNumbers != 1 || numOfOperations != 0)) {
 		return false;
 	}
 	return true;

@@ -390,9 +390,7 @@ private:
 			return new BinaryNode{ t->element, clone(t->left), clone(t->right) };
 	}
 
-	// A utility function to right 
-	// rotate subtree rooted with y  
-	// See the diagram given above.  
+	//based on https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
 	BinaryNode* singleRightRotation(BinaryNode* y)
 	{
 		BinaryNode* x = y->left;
@@ -409,9 +407,6 @@ private:
 		return x;
 	}
 
-	// A utility function to left  
-	// rotate subtree rooted with x  
-	// See the diagram given above.  
 	BinaryNode* singleLeftRotation(BinaryNode* x)
 	{
 		BinaryNode* y = x->right;
@@ -428,19 +423,13 @@ private:
 		return y;
 	}
 
-	// A utility function to right 
-// rotate subtree rooted with y  
-// See the diagram given above.  
 	BinaryNode* doubleLeftRightRotation(BinaryNode* y)
 	{
 		y->left = singleLeftRotation(y->left);
 		BinaryNode* x = singleRightRotation(y);
 		return x;
 	}
-
-	// A utility function to left  
-	// rotate subtree rooted with x  
-	// See the diagram given above.  
+  
 	BinaryNode* doubleRightLeftRotation(BinaryNode* x)
 	{
 		x->right = singleRightRotation(x->right);
