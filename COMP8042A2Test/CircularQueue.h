@@ -11,7 +11,7 @@ public:
 		c = s;
 		front = -1;
 		rear = -1;
-		for (int i = 0; i < s; i++) {
+		for (int i = 0; i < s; i++) { // set all values to NULL
 			data.push_back(NULL);
 		}
 	}

@@ -87,14 +87,6 @@ public:
 		return findMax(root)->element;
 	}
 
-	// the function which tests for the branch heights and assures the tree is
-	// an AVL tree (balanced)
-	void balance(const Comparable& x)
-	{
-		// TODO fill in this function
-
-	}
-
 	// Returns true if x is found in the tree.
 	bool contains(const Comparable& x) const
 	{
@@ -227,10 +219,7 @@ private:
 		else {
 			if (t->isDeleted) {
 				t->isDeleted = false; // if duplicate, but flag is true, flip to false
-				//numDeleted--;
-			}
-			else {
-				;  // Duplicate; do nothing
+				numDeleted--;
 			}
 		}
 		balance(x, t);
@@ -251,10 +240,7 @@ private:
 		else {
 			if (t->isDeleted) {
 				t->isDeleted = false; // if duplicate, but flag is true, flip to false
-				//numDeleted--;
-			}
-			else {
-				;  // Duplicate; do nothing
+				numDeleted--;
 			}
 		}
 		balance(x, t);
@@ -279,9 +265,6 @@ private:
 			if (!t->isDeleted) {
 				t->isDeleted = true; // changed code to set isDeleted to true;
 				numDeleted++; // increase number of deletions
-			}
-			else {
-				return; // item is already deleted, do nothing
 			}
 		}
 	}
