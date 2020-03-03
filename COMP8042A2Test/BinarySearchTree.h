@@ -304,7 +304,7 @@ private:
 	{
 		if (t != nullptr && minNode == nullptr) {
 			findMinLazyDelete(t->left, minNode);
-			if (!t->isDeleted) {
+			if (!t->isDeleted && minNode == nullptr) {
 				minNode = t;
 			}
 			findMinLazyDelete(t->right, minNode);
@@ -327,7 +327,7 @@ private:
 	{
 		if (t != nullptr && maxNode == nullptr) {
 			findMaxLazyDelete(t->right, maxNode);
-			if (!t->isDeleted) {
+			if (!t->isDeleted && maxNode == nullptr) {
 				maxNode = t;
 			}
 			findMaxLazyDelete(t->left, maxNode);

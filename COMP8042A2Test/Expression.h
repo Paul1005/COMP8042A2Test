@@ -3,6 +3,9 @@
 
 using namespace std;
 
+/*
+Checks to see if the symbol is a valid operation symbol, returns true if yes, false if no.
+*/
 bool isValidSymbol(char symbol) {
 	if (symbol != '+' && symbol != '-' && symbol != '*' && symbol != '/' && symbol != '^' && symbol != '@') {
 		return false;
@@ -12,18 +15,18 @@ bool isValidSymbol(char symbol) {
 	}
 }
 
-double evalPostFix() //TODO: complete
+double evalPostFix()
 {
 	string token;
 	double result;
 	cin >> token;
-	stack<double> numbers;
+	stack<double> numbers; // stack of operands
 	while (token[0] != '=')
 	{
-		if (!isValidSymbol(token[0])) {
+		if (!isValidSymbol(token[0])) { // if symbol is an operation
 			result = atof(token.c_str());
 		}
-		else {
+		else { // if symbol is an operand 
 			double second = numbers.top();
 			numbers.pop();
 			double first = numbers.top();
@@ -71,7 +74,7 @@ bool isValidExpression(int expressionType) {
 	while (token[0] != '=') {
 		result = atof(token.c_str());
 		if (result) { // is a number/operand
-			if (expressionType == 0) {
+			if (expressionType == 0) { // is prefix expression
 				if (numOfOperations == 0) {
 					return false;
 				}
@@ -97,7 +100,7 @@ bool isValidExpression(int expressionType) {
 					}
 				}
 			}
-			else if (expressionType == 1) {
+			else if (expressionType == 1) { // is infix expression
 				if (wasSymbol) {
 					wasSymbol = false;
 				}
@@ -105,7 +108,7 @@ bool isValidExpression(int expressionType) {
 					return false;
 				}
 			}
-			else if (expressionType == 2) {
+			else if (expressionType == 2) { // is postfix expression
 				if (numOfNumbers == 0) {
 					numOfNumbers++;
 				}
@@ -122,11 +125,11 @@ bool isValidExpression(int expressionType) {
 		}
 		else if (!result) { // is an operation
 			if (isValidSymbol(token[0])) {
-				if (expressionType == 0) {
+				if (expressionType == 0) { // is prefix expression
 					operations.push(token[0]);
 					numOfOperations++;
 				}
-				else if (expressionType == 1) {
+				else if (expressionType == 1) { // is infix expression
 					if (wasSymbol) {
 						return false;
 					}
@@ -134,7 +137,7 @@ bool isValidExpression(int expressionType) {
 						wasSymbol = true;
 					}
 				}
-				else if (expressionType == 2) {
+				else if (expressionType == 2) { // is postfix expression
 					if (numOfNumbers == 1 || numOfNumbers == 0) {
 						return false;
 					}
